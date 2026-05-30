@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>UFC Fighting Game - Custom Fighters</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- Character Selection Screen -->
+        <div id="selection-screen" class="selection-screen">
+            <h1>🔥 UFC FIGHTING CHAMPIONSHIP 🔥</h1>
+            <div class="fighters-selection">
+                <div class="fighter-selector player1-selector">
+                    <h2>⚡ PLAYER 1 ⚡</h2>
+                    <div class="fighter-preview" id="p1-preview">
+                        <img id="p1-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e74c3c'/%3E%3Ccircle cx='100' cy='90' r='40' fill='%23f39c12'/%3E%3Crect x='70' y='130' width='60' height='60' fill='%23c0392b'/%3E%3Ctext x='100' y='185' text-anchor='middle' fill='white' font-size='16' font-weight='bold'%3ECHOOSE%3C/text%3E%3C/svg%3E" alt="Fighter 1">
+                    </div>
+                    <div class="fighter-name" id="p1-name">SELECT FIGHTER</div>
+                    <input type="file" id="p1-upload" accept="image/*" class="upload-btn">
+                    <label for="p1-upload" class="upload-label">📸 UPLOAD PHOTO</label>
+                </div>
+                
+                <div class="vs-divider">VS</div>
+                
+                <div class="fighter-selector player2-selector">
+                    <h2>⚡ PLAYER 2 ⚡</h2>
+                    <div class="fighter-preview" id="p2-preview">
+                        <img id="p2-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%233498db'/%3E%3Ccircle cx='100' cy='90' r='40' fill='%23f1c40f'/%3E%3Crect x='70' y='130' width='60' height='60' fill='%232c3e50'/%3E%3Ctext x='100' y='185' text-anchor='middle' fill='white' font-size='16' font-weight='bold'%3ECHOOSE%3C/text%3E%3C/svg%3E" alt="Fighter 2">
+                    </div>
+                    <div class="fighter-name" id="p2-name">SELECT FIGHTER</div>
+                    <input type="file" id="p2-upload" accept="image/*" class="upload-btn">
+                    <label for="p2-upload" class="upload-label">📸 UPLOAD PHOTO</label>
+                </div>
+            </div>
+            
+            <div class="selection-controls">
+                <button id="start-fight-btn" class="start-fight-btn">⚔️ START FIGHT! ⚔️</button>
+                <button id="reset-fighters-btn" class="reset-btn">🔄 RESET</button>
+            </div>
+            
+            <div class="selection-info">
+                <p>💪 Upload your own photos to create custom fighters!</p>
+                <p>🎮 Player 1: A/D (Move) | E (Punch) | Q (Kick) | F (Block)</p>
+                <p>🎮 Player 2: ←/→ (Move) | ↑ (Punch) | ↓ (Kick) | Right Shift (Block)</p>
+</div>
+            </div>
+        </div>
+        
+        <!-- UI Overlay -->
+        <div id="ui-overlay" style="display: none;">
+            <div class="health-bars">
+                <div class="health-bar-container player1">
+                    <div class="health-bar-fill" id="player1-health"></div>
+                    <div class="health-bar-text" id="player1-name-display">PLAYER 1</div>
+                </div>
+                <div class="health-bar-container player2">
+                    <div class="health-bar-fill" id="player2-health"></div>
+                    <div class="health-bar-text" id="player2-name-display">PLAYER 2</div>
+                </div>
+            </div>
+            
+            <div class="timer-container">
+                <div class="timer" id="timer">99</div>
+            </div>
+            
+            <div class="round-display" id="round-display">ROUND 1</div>
+            <div class="combo-display" id="combo-display"></div>
+            <div class="game-message" id="game-message"></div>
+            
+            <!-- Controls Display Below the Ring -->
+            <div class="controls-panel">
+                <div class="controls-box player1-controls">
+                    <div class="controls-title">👊 PLAYER 1 (RED) 👊</div>
+                    <div class="controls-grid">
+                        <div class="control-item">
+                            <span class="control-key">A / D</span>
+                            <span class="control-action">←  →</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">E</span>
+                            <span class="control-action">PUNCH</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">Q</span>
+                            <span class="control-action">KICK</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">F</span>
+                            <span class="control-action">BLOCK</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="controls-box player2-controls">
+                    <div class="controls-title">👊 PLAYER 2 (BLUE) 👊</div>
+                    <div class="controls-grid">
+                        <div class="control-item">
+                            <span class="control-key">←  /  →</span>
+                            <span class="control-action">MOVE</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">↑</span>
+                            <span class="control-action">PUNCH</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">↓</span>
+                            <span class="control-action">KICK</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">Right Ctrl</span>
+                            <span class="control-action">BLOCK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/config/GameConfig.js"></script>
+    <script src="js/config/FighterConfig.js"></script>
+    <script src="js/config/ControlsConfig.js"></script>
+    <script src="js/core/EventBus.js"></script>
+    <script src="js/core/AssetManager.js"></script>
+    <script src="js/core/AnimationManager.js"></script>
+    <script src="js/core/CollisionManager.js"></script>
+    <script src="js/core/InputManager.js"></script>
+    <script src="js/core/SceneManager.js"></script>
+    <script src="js/entities/Hitbox.js"></script>
+    <script src="js/entities/Fighter.js"></script>
+    <script src="js/managers/CombatManager.js"></script>
+    <script src="js/managers/PlayerManager.js"></script>
+    <script src="js/managers/UIManager.js"></script>
+    <script src="js/scenes/FightScene.js"></script>
+    <script src="js/core/Game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
