@@ -1,5 +1,6 @@
 # UFC-Game
-'''text
+
+```text
 ufc-fighting-game/
 │
 ├── index.html
@@ -41,4 +42,4 @@ ufc-fighting-game/
     │
     └── scenes/
         └── FightScene.js
-'''
+```
